@@ -17,3 +17,12 @@ public class Main {
     }
 
 }
+
+// After checking out different options, I felt like Scanner was the most straightforward approach.
+// So first, we initiate the Scanner.
+// Then we prompt the user to enter their weekly income.
+// Then we initiate the Income class that handles all the heavy lifting.
+//    The most important part of Income is the calculateTaxRate method that actually handles calculating the tax rate,
+//    and calculateTaxWithheld that calculates the tax withheld.
+// Finally, we print the details, which I thought would be ideal for these to be functions in Income as well.
+// Last but not least, we close the Scanner to finalize.
