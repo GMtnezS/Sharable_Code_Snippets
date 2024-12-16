@@ -1,6 +1,5 @@
 package wk5;
 
-// Main class to manage inventory
 public class Main {
     public static void main(String[] args) {
 
