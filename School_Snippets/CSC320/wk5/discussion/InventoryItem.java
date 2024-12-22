@@ -1,4 +1,4 @@
-package wk5;
+package wk5.discussion;
 
 // Define the InventoryItem class
 class InventoryItem {

@@ -1,4 +1,4 @@
-package wk5;
+package wk5.discussion;
 
 public class Main {
     public static void main(String[] args) {
