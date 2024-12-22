@@ -1,4 +1,4 @@
-package wk6;
+package wk6.discussion;
 
 import java.util.Scanner;
 

@@ -1,0 +1,8 @@
+Model: Modern
+Square Feet: 2200
+Address: 456 Pine St
+City: Austin
+State: TX
+Zip Code: 73301
+Sale Status: sold
+--------------------------
