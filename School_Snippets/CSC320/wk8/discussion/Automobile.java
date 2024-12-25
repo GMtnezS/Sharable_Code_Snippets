@@ -25,7 +25,6 @@ public class Automobile {
         this.available = available;
     }
 
-    // Getters and Setters
     public String getVin() {
         return vin;
     }
