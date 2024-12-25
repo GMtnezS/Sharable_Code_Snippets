@@ -7,7 +7,16 @@ public class Automobile {
     private String vin;
     private boolean available;
 
-    // Constructor
+    // Default Constructor
+    public Automobile() {
+        this.make = "Unknown";
+        this.model = "Unknown";
+        this.year = 0;
+        this.vin = "N/A";
+        this.available = true;
+    }
+
+    // Parameterized Constructor
     public Automobile(String make, String model, int year, String vin, boolean available) {
         this.make = make;
         this.model = model;
@@ -16,6 +25,7 @@ public class Automobile {
         this.available = available;
     }
 
+    // Getters and Setters
     public String getVin() {
         return vin;
     }
