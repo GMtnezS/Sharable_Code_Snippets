@@ -1,0 +1,32 @@
+Model: Classic
+Square Feet: 2200
+Address: 101112 Pine St
+City: Miami
+State: FL
+Zip Code: 33456
+Sale Status: Available
+--------------------------
+Model: Modern
+Square Feet: 1800
+Address: 456 Pine St
+City: Austin
+State: TX
+Zip Code: 73301
+Sale Status: Sold
+--------------------------
+Model: Classic
+Square Feet: 2200
+Address: 101112 Pine St
+City: Miami
+State: FL
+Zip Code: 33456
+Sale Status: Available
+--------------------------
+Model: Modern
+Square Feet: 1800
+Address: 456 Pine St
+City: Austin
+State: TX
+Zip Code: 73301
+Sale Status: Sold
+--------------------------

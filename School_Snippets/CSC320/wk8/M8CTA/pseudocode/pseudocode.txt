@@ -1,0 +1,88 @@
+// package wk8.M8CTA;
+
+// import java.io.FileWriter;
+// import java.io.IOException;
+// import java.util.ArrayList;
+// import java.util.List;
+
+// public class HomeInventory {
+    // List to store all Home objects
+    // Private List<Home> homes;
+
+    // Constructor to initialize the list of homes
+    // public HomeInventory() {
+    //      Initialize an empty list of homes using ArrayList
+    //      this.homes = new ArrayList<>();
+    // }
+
+    // Add Home to Inventory
+    // public boolean addHome(Home home) {
+    //      If home is not null
+    //          Add home to the list
+    //          Print "Home added successfully."
+    //          Return true
+    //      Else
+    //          Print "Failed to add home. Home is null."
+    //          Return false
+    // }
+
+    // Remove Home from Inventory
+    // public boolean removeHome(String modelName, String address, int zipCode) {
+    //      For each home in homes
+    //          Call RemoveHome() on each home with provided parameters
+    //          If a match is found
+    //              Remove the home from the list
+    //              Print "Home removed from inventory."
+    //              Return true
+    //      If no match is found after loop
+    //          Print "No matching home found to remove."
+    //          Return false
+    // }
+
+    // Update Home in Inventory
+    // public boolean updateHome(String modelName, String address, int zipCode, Home updatedHome) {
+    //      For each home in homes
+    //          Call UpdateHome() with new data
+    //          If a match is found and updated successfully
+    //              Print "Home updated successfully in inventory."
+    //              Return true
+    //      If no match is found after loop
+    //          Print "No matching home found to update."
+    //          Return false
+    // }
+
+    // List All Homes in Inventory
+    // public void listHomes() {
+    //      If homes list is empty
+    //          Print "No homes in inventory."
+    //      Else
+    //          Loop through homes
+    //              Call GetHomeDetails() on each home to print its details
+    // }
+
+    // Export Entire Inventory to a Single File
+    // public void exportInventory(String filePath) {
+    //      Try to open a file for writing (using try-with-resources)
+    //          If homes list is empty
+    //              Write "No homes in inventory." to the file
+    //          Else
+    //              Loop through homes
+    //                  Write home details to file by calling formatHomeDetails()
+    //          Print "Inventory exported successfully to filePath."
+    //      Catch IOException
+    //          Print "Error exporting inventory."
+    // }
+
+    // Export Inventory to Multiple Files (One File per Home)
+    // public void exportInventoryToMultipleFiles(String filePath) {
+    //      If homes list is empty
+    //          Print "No homes in inventory to export."
+    //          Return
+    //      Initialize index to 1
+    //      Loop through homes
+    //          Generate unique file name by appending index to filePath (e.g., filePath_1.txt)
+    //          Call ExportToFile() for each home with the generated file name
+    //          Increment index by 1
+    //      Print "Inventory exported to separate files successfully."
+    // }
+// }

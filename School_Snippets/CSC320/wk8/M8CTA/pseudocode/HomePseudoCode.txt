@@ -1,0 +1,85 @@
+package wk6.CTA;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.lang.reflect.Method;
+
+public class Home {
+  // fields describing a home and its location:  
+  // Private String modelName
+  // Private String saleStatus
+  // Private String address
+  // Private String city
+  // Private String state
+  // Private int zipCode
+  // Private int squareFeet
+
+  // the requirements in the rubric mention add and list inventory, 
+  // However this is the "HOME" class so it's scope should be limited to the HOME Object that focuses on 1 specific Home at a time  
+
+  // Within this scope, the "ADD" logic of the Home class that is in charge of creating the home, should be its constructor. 
+  // I think it wouldn't make much sense to add a separate method for it.  
+  // public Home(int squareFeet, String address, String city, String state, int zipCode, String modelName, String saleStatus) {
+  //       Run validation for all required fields prior to setting the home information - abstracted to new method
+  //       this.squareFeet = squareFeet;
+  //       this.address = address;
+  //       this.city = city;
+  //       this.state = state;
+  //       this.zipCode = zipCode;
+  //       this.modelName = modelName;
+  //       this.saleStatus = saleStatus;
+  // }
+
+  // private boolean validateHomeFields(int squareFeet, String address, String city, String state, int zipCode, String modelName, String saleStatus) {
+  // run validation checks, if any fails return false
+  // if none failed, return true
+  // }
+
+  // Similarly, the HOME class should not be able to "List Home Inventory" since it should only have access to its own information.
+  // Within the scope of HOME, the logic associated with listing the home inventory will be for the class to Display/Get its own information. 
+  // public void GetHomeDetails(){
+      // Print Home Information. I'm thinking of: [Home Status] - HomeModel - Home Address as address, city, state, zipcode - SqrtFT labeled as ft^2
+  // }
+
+  // For Delete and Update, my understanding of the scope of Home in these inventory actions would be for it to handle checking if the home is the one being looked for, 
+  // if it is we would then send confirmation to remove it (since home can't "detele itself") or to update its fields with the given data
+
+  // public boolean RemoveHome(String homeModel, String homeAddress, int homeZipCode){
+      // If values entered match values stored in private variables
+      // RETURN CONFIRMATION TO remove home information (TRUE) FROM HOME INVENTORY CLASS (wk8)
+
+      // else
+      // return message indicating mismatch TO PREVENT REVOMAL FROM HOME INVENTORY (wk8)
+  // }
+
+  // public boolean UpdateHome(String homeModel, String homeAddress, int homeZipCode, OBJECT newHomeData ){
+  //     If values entered match values stored in private variables
+  //     update home information with newHomeData's given fields
+
+  //     else
+  //     return message indicating mismatch
+  // }
+        
+  // Last but not least, as part of the wk8 requirements we optionally save the home information to a file, 
+  // here HOME's scope should allow it to save its own information in the file. 
+  
+  // I'm starting by making a separate method for creating the content, that we can leverage to keep the export function more readable and DRY
+  // private String formatHomeDetails() {
+  //     return home information in a multi-line string format
+  // }
+
+  // public void ExportToFile(String filePath){
+  //     GetHomeDetails() to display the home information in the terminal too. 
+  //     content = formatHomeDetails()
+
+  //    Instantiate the Writer: Fun Fact! there's a try catch format in lanuages like Java and C# called "try-with-resources"
+  //    It can simply the process since it will take care of closing the instance on its own, just wish I'd figured it out sooner!
+  //    try (FileWriter writer instantiated){
+  //      writer.write(content)
+  //      print confirmation, something like "Home information exported successfully to FilePath."
+  //    } catch (exception) {
+  //      print exception
+  //    }
+  // }
+}

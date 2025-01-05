@@ -1,0 +1,16 @@
+Model: Classic
+Square Feet: 2200
+Address: 101112 Pine St
+City: Miami
+State: FL
+Zip Code: 33456
+Sale Status: Available
+--------------------------
+Model: Classic
+Square Feet: 2200
+Address: 101112 Pine St
+City: Miami
+State: FL
+Zip Code: 33456
+Sale Status: Available
+--------------------------
