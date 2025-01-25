@@ -30,13 +30,13 @@ public class Main1 {
       System.out.println("Contains 'Apple': " + bag.contains("Apple")); // true
       System.out.println("Contains 'Watermelon': " + bag.contains("Watermelon")); // true
       System.out.println("Contains 'Banana': " + bag.contains("Banana")); // true
-      System.out.println("Contains 'Pomegranate': " + bag.contains("Pomegranate")); // true
+      System.out.println("Contains 'Pomegranate': " + bag.contains("Pomegranate")); // false
 
       // Test the `count` method for a few elements.
       System.out.println("Count of 'Apple': " + bag.count("Apple")); // 4
       System.out.println("Count of 'Watermelon': " + bag.count("Watermelon")); // 1
-      System.out.println("Count of 'Banana': " + bag.count("Banana")); // 2
-      System.out.println("Count of 'Pomegranate': " + bag.count("Pomegranate")); // 2
+      System.out.println("Count of 'Banana': " + bag.count("Banana")); // 3
+      System.out.println("Count of 'Pomegranate': " + bag.count("Pomegranate")); // 0
 
       // Print bag contents
       System.out.println("Bag contents: " + bag);
