@@ -1,0 +1,79 @@
+package wk6.CTA;
+import java.util.HashMap;
+
+// We talked a lot about leveraging arrays and ArrayLists for bag creation, 
+// but it didn't feel quite ideal so I ended up going for a hashmap instead due to its performance benefits. 
+// Hope it's ok! if not, i can redo it!
+
+public class Bag<T> {
+    // Field for the HashMap where we'll store items and their counts:
+    // Private HashMap<T, Integer> items;
+
+    // Constructor to initialize the Bag:
+    // public Bag() {
+    //     Initialize the HashMap to store items and their counts.
+    //     this.items = new HashMap<>();
+    // }
+
+    // Method to Add an item to the Bag:
+    // public void add(T item) {
+    //     If the item already exists in the HashMap:
+    //         Increment its count by 1.
+    //     Else:
+    //         Add the item to the HashMap with a count of 1.
+    // }
+
+    // Method to Remove one occurrence of an item from the Bag:
+    // public void remove(T item) {
+    //     If the item exists in the HashMap:
+    //         If the count is greater than 1:
+    //             Decrement the count by 1.
+    //         Else:
+    //             Remove the item entirely from the HashMap.
+    // }
+
+    // Method to Check if the Bag contains a specific item:
+    // public boolean contains(T item) {
+    //     Return true if the item exists in the HashMap.
+    //     Return false otherwise.
+    // }
+
+    // Method to Get the count of a specific item in the Bag:
+    // public int count(T item) {
+    //     If the item exists in the HashMap:
+    //         Return its count.
+    //     Else:
+    //         Return 0.
+    // }
+
+    // Method to Get the total size of the Bag (including duplicates):
+    // public int size() {
+    //     Initialize totalSize to 0.
+    //     For each value (count) in the HashMap:
+    //         Add the count to totalSize.
+    //     Return totalSize.
+    // }
+
+    // Method to Merge another Bag into this Bag:
+    // public void merge(Bag<T> otherBag) {
+    //     For each item in the otherBag:
+    //         If the item exists in this Bag:
+    //             Add its count from the otherBag to the count in this Bag.
+    //         Else:
+    //             Add the item to this Bag with its count from the otherBag.
+    // }
+
+    // Method to Get a new Bag containing only the distinct elements:
+    // public Bag<T> distinct() {
+    //     Create a new Bag called distinctBag.
+    //     For each item in the current Bag:
+    //         Add the item to distinctBag with a count of 1.
+    //     Return distinctBag.
+    // }
+
+    // Override toString for easy printing of Bag contents:
+    // @Override
+    // public String toString() {
+    //     Return the string representation of the HashMap.
+    // }
+}
