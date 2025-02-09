@@ -1,0 +1,133 @@
+We first define how to perform basic mathematical operations like addition, subtraction, multiplication, division, and modulo.
+
+Addition => Push the sum onto the operand stack.
+FUNCTION handleSum(stack, a, b):
+    PUSH (a + b) to stack
+
+Subtraction => Push the result of subtraction onto the operand stack.
+FUNCTION handleSubtraction(stack, a, b):
+    PUSH (a - b) to stack
+
+Multiplication => Push the product onto the operand stack.
+FUNCTION handleMultiplication(stack, a, b):
+    PUSH (a * b) to stack
+
+Division => If the denominator is 0, throw an error. Otherwise, push the result of division onto the operand stack.
+FUNCTION handleDivision(stack, a, b):
+    IF b == 0:
+        THROW "Division by zero"
+    PUSH (a / b) to stack
+
+Modulo => If the denominator is 0, throw an error. Otherwise, push the remainder onto the operand stack.
+FUNCTION handleModulo(stack, a, b):
+    IF b == 0:
+        THROW "Modulo by zero"
+    PUSH (a % b) to stack
+
+Before parsing an expression, we'll need helper functions to determine operator types and precedence. How shall we handle multi-digit numbers?
+
+What makes a character an operator (+, -, *, /, %)?
+FUNCTION isOperator(ch):
+    RETURN TRUE IF ch is in ('+', '-', '*', '/', '%')
+
+How can we determine operator precedence? + and - have lower precedence. *, /, and % have higher precedence.
+FUNCTION precedence(op):
+    RETURN:
+        1 IF op is '+' or '-'
+        2 IF op is '*' or '/' or '%'
+        -1 OTHERWISE
+
+We also need to extract the full multi-digit numbers and store them in the operand stack:
+FUNCTION processNumber(expression, index, operandStack):
+    SET num = 0
+    WHILE index < length of expression AND character at index is a digit:
+        num = determine numeric value of character at index
+        INCREMENT index
+    PUSH num to operandStack
+    RETURN index - 1
+
+Once we have operands and operators, we execute an operation.
+  We need to: Ensure that there are at least two operands.
+    Extract the top two operands and the top operator.
+    Perform a different operation based on the operator.
+    Store the result back in the operand stack.
+
+Let's leverage a map to streamline the process: 
+DEFINE OPERATION_MAP as a mapping of operators to their corresponding functions:
+    '+' => handleSum()
+    '-' => handleSubtraction()
+    '*' => handleMultiplication()
+    '/' => handleDivision()
+    '%' => handleModulo()
+
+ FUNCTION performOperation(operandStack, operatorStack):
+    IF operandStack has less than 2 values:
+        RETURN (not enough values to perform an operation)
+
+    SET b = POP from operandStack
+    SET a = POP from operandStack
+    SET op = POP from operatorStack
+
+    CALL OPERATION_MAP.getOrDefault(op, ERROR_HANDLER) WITH (operandStack, [a, b])
+
+Characters in an infix expression can be whitespace, digits, operators, or parentheses:
+  Whitespace => Ignore it
+  Digit => Extract the full number and store it.
+  Operator => Process it using precedence rules.
+  Parentheses: ( How can we handle expression in here? ) Process everything inside the parentheses.
+
+  Toggling Different Character Types: (What makes each character their type?)
+  FUNCTION getCharacterType(ch):
+  RETURN:
+      WHITESPACE IF ch is a space
+      DIGIT IF ch is a number
+      PARENTHESIS IF ch is '(' or ')'
+      OPERATOR IF ch is '+', '-', '*', '/', '%'
+      UNKNOWN OTHERWISE
+
+  How can we process the inner expressions of parentheses without affecting the outside?
+  FUNCTION processParenthesis(ch, operandStack, operatorStack):
+      IF ch is '(':
+          PUSH ch to operatorStack
+      ELSE IF ch is ')':
+          CALL processClosingParenthesis(operandStack, operatorStack)
+
+  Considering that we're iterating from closing to opening (right to left) since it's a stack
+  FUNCTION processClosingParenthesis(operandStack, operatorStack):
+      WHILE operatorStack is NOT empty AND top of operatorStack is NOT '(':
+          performOperation(operandStack, operatorStack)
+      POP '(' from operatorStack
+
+Abtracting Operation Handler : 
+  Before adding an operator to the stack, apply precedence to the operations. 
+  Consider: If there are existing operators of higher precedence, apply them first.
+          Push the new operator to the operator stack.
+  FUNCTION processOperator(operandStack, operatorStack, op):
+  WHILE operatorStack is NOT empty AND precedence(top of operatorStack) >= precedence(op):
+      performOperation(operandStack, operatorStack)
+  PUSH op to operatorStack
+
+
+The evaluateInfix function processes the expression from left to right, handling different character types.
+
+1. Reset/Clear stacks before processing.
+2. Iterate through each character in the expression: 
+    Leverage CHARACTER_PROCESSORS to determine what function should handle it based on Character Type. 
+    If an invalid character is found, throw an error.
+3. Apply remaining operators in the operator stack.
+4 Return the final result, which is the last value in operandStack.
+
+FUNCTION evaluateInfix(expression):
+    INITIALIZE index to 0
+    CLEAR operandStack and operatorStack
+
+    WHILE index < length of expression:
+        SET ch = expression[index]
+        GET character type using getCharacterType(ch)
+        CALL CHARACTER_PROCESSORS.getOrDefault(character type)
+        INCREMENT index
+
+    WHILE operatorStack is NOT empty:
+        performOperation(operandStack, operatorStack)
+
+    RETURN POP from operandStack
