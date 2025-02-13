@@ -1,0 +1,29 @@
+{
+  "product": {
+    "id": "P12345",
+    "name": "Wireless Bluetooth Headphones",
+    "brand": "AudioTech",
+    "price": 79.99,
+    "currency": "USD",
+    "in_stock": true,
+    "categories": [
+      "Electronics",
+      "Audio",
+      "Wireless"
+    ],
+    "ratings": {
+      "average": 4.5,
+      "reviews": 235
+    },
+    "variants": [
+      {
+        "color": "Black",
+        "sku": "P12345-BLK"
+      },
+      {
+        "color": "White",
+        "sku": "P12345-WHT"
+      }
+    ]
+  }
+}
