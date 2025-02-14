@@ -1,0 +1,240 @@
+So.. my first reflex with this assignment was: Why do we need to choose between numbers and strings? can't we do both?
+So I came to the following conclusion: Strings can include numbers. 
+
+FUNCTION radixSort(array):
+    IF array is empty:
+        RETURN
+
+    First we find the longest string length in the dataset
+    In out example, the longest words in the dataset are "desk" and "word" with 4 characters
+    This means there will be 4 iterations that will be performed from rightmost (LSD) to leftmost (MSD)
+    SET maxLength = FIND maximum string length in array // O(N), linear scan to find max length
+
+    Define the ASCII range to cover all characters
+    DEFINE ASCII_RANGE = 256 // O(K), where K is the number of ASCII buckets (constant at 256)
+
+    Create empty buckets for sorting
+    INITIALIZE buckets[ASCII_RANGE] as lists // O(K), where K is the number of ASCII buckets (constant at 256)
+
+    Create toggle for keeping track if any string has a number that needs to be sorted by naturalSort; this is my touch aside from the radix.
+    INITIALIZE ifNumbers = false;
+
+
+    Processing characters from rightmost to leftmost (Least Significant Digit - LSD): 
+        Total complexity for Radix Sort loop: O(M * (N + K)) => O(M * N), since K is constant
+            Where N is the length of the strings array
+            Where M is the max string length
+            Where K is the number of ASCII buckets (constant at 256)
+    FOR charIndex FROM maxLength-1 TO 0 DECREMENT BY 1:  // O(M), where M is the max string length determined above
+        FOR each string str in array: // O(N), since we iterate over every string
+            Check if contains number: // Independent of radix logic; just to keep track of whether we need to sort numbers afterwards
+            IF Numbers is FALSE AND str MATCHES regex ".*\\d.*":
+                SET ifNumbers to TRUE
+
+            Extract the character at position charIndex, treating missing characters as ASCII 0
+            SET ch = IF charIndex < str.length THEN str[charIndex] ELSE ASCII 0  
+
+            Making sure to place the string into the corresponding bucket
+            ADD str TO buckets[ch]
+
+        Collect sorted values back into the original array
+        SET index = 0
+        FOR each bucket in buckets: // O(K) - and since K is constant effectively O(1)
+            FOR each str in bucket: // O(N), since each string must be collected
+                array[index] = str
+                INCREMENT index
+            CLEAR bucket
+
+     Evaluating the progression of our sample throughout the loop: 
+
+    //////////////////////////////////////
+
+            Interation1: 
+
+            Extract last characters:
+            joke => 'e'
+            book => 'k'
+            back => 'k'
+            dig => 'g'
+            desk => 'k'
+            word => 'd'
+            fish => 'h'
+            ward => 'd'
+            dish => 'h'
+            wit => 't'
+            deed => 'd'
+            fast => 't'
+            dog => 'g'
+            bend => 'd'
+
+            Sorting into buckets: 
+            'd': ["word", "ward", "deed", "bend"]
+            'e': ["joke"]
+            'g': ["dig", "dog"]
+            'h': ["fish", "dish"]
+            'k': ["book", "back", "desk"]
+            't': ["wit", "fast"]
+
+            New order after collecting: 
+            ["word", "ward", "deed", "bend", "joke", "dig", "dog", "fish", "dish", "book", "back", "desk", "wit", "fast"] 
+
+            ---------
+
+            Interation2: 
+            
+            Extract second last characters:
+            word → 'r'
+            ward → 'r'
+            deed → 'e'
+            bend → 'n'
+            joke → 'k'
+            dig → 'i'
+            dog → 'o'
+            fish → 's'
+            dish → 's'
+            book → 'o'
+            back → 'c'
+            desk → 's'
+            wit → 'i'
+            fast → 's'
+
+            Sorting into buckets: 
+            'c': ["back"]
+            'd': ["deed"]
+            'e': ["bend"]
+            'i': ["dig", "wit"]
+            'k': ["joke"]
+            'n': ["bend"]
+            'o': ["dog", "book"]
+            'r': ["word", "ward"]
+            's': ["fish", "dish", "desk", "fast"]
+
+            New order after collecting: 
+            ["back", "deed", "bend", "dig", "wit", "joke", "dog", "book", "word", "ward", "fish", "dish", "desk", "fast"]
+        
+            ---------
+
+            Interation3: 
+            
+            Extract third last characters:
+            back → 'a'
+            deed → 'e'
+            bend → 'e'
+            dig → 'd'
+            wit → 'w'
+            joke → 'o'
+            dog → 'd'
+            book → 'o'
+            word → 'o'
+            ward → 'a'
+            fish → 'i'
+            dish → 'i'
+            desk → 'e'
+            fast → 'a'
+
+            Sorting into buckets: 
+            'a': ["back", "ward", "fast"]
+            'd': ["dig", "dog"]
+            'e': ["deed", "bend", "desk"]
+            'i': ["fish", "dish"]
+            'o': ["joke", "book", "word"]
+            'w': ["wit"]
+
+            New order: 
+            ["back", "ward", "fast", "dig", "dog", "deed", "bend", "desk", "fish", "dish", "joke", "book", "word", "wit"]
+
+            ---------
+
+            Interation4: 
+            
+            Extract fourth last characters:
+            back → 'b'
+            ward → 'w'
+            fast → 'f'
+            dig → 'd'
+            dog → 'd'
+            deed → 'd'
+            bend → 'b'
+            desk → 'd'
+            fish → 'f'
+            dish → 'd'
+            joke → 'j'
+            book → 'b'
+            word → 'w'
+            wit → 'w'
+
+            Sorting into buckets: 
+            'b': ["back", "bend", "book"]
+            'd': ["dig", "dog", "deed", "desk", "dish"]
+            'f': ["fast", "fish"]
+            'j': ["joke"]
+            'w': ["ward", "word", "wit"]
+
+            New order: 
+            ["back", "bend", "book", "dig", "dog", "deed", "desk", "dish", "fast", "fish", "joke", "ward", "word", "wit"]
+
+
+    //////////////////////////////////////
+
+    Last, but not least, we apply Natural Order Comparator to fix numeric ordering
+    However, in our sample test there aren't numbers so this step is not needed for our demonstration
+    CALL naturalSort(array) // O(N log N), because inside we're leveraging the compareNatural() comparator that runs at O(N log N)
+
+
+Let's define the function that will apply the final natural sorting after Radix Sort
+FUNCTION naturalSort(array):
+    Sorting the array using the natural comparator that distinguishes numbers from letters
+    SORT array using compareNatural() comparator
+
+
+    Function to compare two strings in natural sorting order
+    FUNCTION compareNatural(s1, s2):
+        SET i = 0, j = 0
+
+        Iterate through both strings, comparing each character
+        WHILE i < length(s1) AND j < length(s2):
+            SET c1 = s1[i], c2 = s2[j]
+
+            If both characters are digits, we extract and compare full numeric values
+            IF c1 is a digit AND c2 is a digit:
+                SET num1 = extractNumber(s1, i)
+                SET num2 = extractNumber(s2, j)
+
+                If numbers are different, we return numeric comparison result
+                IF num1 != num2:
+                    RETURN compare(num1, num2)
+
+                Move past the full number in both strings
+                INCREMENT i BY length(num1)
+                INCREMENT j BY length(num2)
+
+            ELSE:
+                If characters are different, we return the comparison result
+                IF c1 != c2:
+                    RETURN compare(c1, c2)
+
+                Otherwise, we continue comparing the next characters
+                INCREMENT i
+                INCREMENT j
+
+        If one string is longer, it should be considered larger
+        RETURN compare(length(s1), length(s2))
+
+
+    Method to extract a full number from a string at a given index
+    FUNCTION extractNumber(s, start):
+        SET num = ""
+
+        Read consecutive digits and form a complete number
+        WHILE start < length(s) AND s[start] is a digit:
+            APPEND s[start] to num
+            INCREMENT start
+
+        Convert the collected digits into an integer and return
+        RETURN PARSE num AS INTEGER
+
+Overall, if no numbers are present the worse case scenario is O(MN); 
+If numbers were present we would need to account for the NaturalSort which would have a complexity of O(MN + N log N)
+
+
+PS: to trigger tests, just call the sh file
