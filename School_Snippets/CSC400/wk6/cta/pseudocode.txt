@@ -1,0 +1,72 @@
+This is the main CustomLinkedList class. It extends the LinkedList class I created for wk7.discussion with the logic for the iterator.
+Here we implement Iterable<Integer> to allow iteration using a custom iterator.
+FUNCTION CustomLinkedList():
+    EXTENDS LinkedList
+    IMPLEMENTS Iterable<Integer>
+
+
+    Method to deletes the first occurrence of a node with the given data
+    FUNCTION delete(data):
+        If the list is empty, there is nothing to delete
+        IF head IS NULL:
+            RETURN  
+
+        IF head.data == data:
+            Removing head node by replacing it with its next
+            SET head TO head.next  
+            RETURN
+
+        SET current TO head
+        WHILE current.next IS NOT NULL:
+            IF current.next.data == data:
+                Skipping over the deleted node
+                SET current.next TO current.next.next
+                RETURN
+            MOVE current TO current.next
+
+    FUNCTION iterator():
+        Returns an iterator object for the linked list
+        RETURN NEW LinkedListIterator()
+
+This is the inner class that implements the Iterator interface for CustomLinkedList.
+CLASS LinkedListIterator:
+
+    PRIVATE LinkedListNode current = head
+
+    FUNCTION hasNext():
+        Checking if there are more elements to iterate over
+        RETURN current IS NOT NULL
+
+    FUNCTION next():
+        Returning the next element and advancing the iterator
+        IF NOT hasNext():
+            THROW NoSuchElementException
+        SET data TO current.data
+        MOVE current TO current.next
+        RETURN data
+
+Kept the logic of getting the numbers from the file in a separate class for separation of concerns. 
+This class extends JSONScanner from a previous assignment, reusing its file reading capabilities.
+The goal of this class is to parse text files containing integer values, converting them into a list that is easy to use. 
+FUNCTION FileInputHandler():
+    EXTENDS JSONScanner
+
+    FUNCTION readIntegersFromFile(filename):
+        Reads a text file and extracts integer values
+        CALL readJsonFile(filename) FROM JSONScanner
+        IF file IS EMPTY:
+            If file is empty, return an empty list
+            RETURN EMPTY LIST  
+
+        SPLIT content BY NEW LINES
+        INITIALIZE empty list result
+
+        FOR EACH line IN file content:
+            IF line IS INTEGER:
+                Convert string to integer and add to list
+                APPEND integer value TO result 
+
+        RETURN result
+
+
+PS: to trigger tests, just call the sh file.
