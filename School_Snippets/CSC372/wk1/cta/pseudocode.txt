@@ -1,0 +1,102 @@
+I approached BankAccount as a generic superclass meant to handle common banking operations.
+CheckingAccount builds on this foundation by adding overdraft protection and an interest rate.
+
+BackAccount Class: This class serves as the base for all accounts, handling balance management, deposits, withdrawals, and basic account details.
+
+CLASS BankAccount(firstName, lastName, accountID):
+  private String firstName;
+  private String lastName;
+  private int accountID;
+  protected double balance;
+
+  Constructor BankAccount: 
+    IF firstName IS NULL OR EMPTY OR lastName IS NULL OR EMPTY:
+      THROW IllegalArgumentException("First name and last name cannot be empty.")
+    IF accountID IS NEGATIVE:
+      THROW IllegalArgumentException("Account ID must be a positive integer.")
+    
+    SET this.firstName TO firstName
+    SET this.lastName TO lastName
+    SET this.accountID TO accountID
+    SET this.balance TO 0.0
+  
+  FUNCTION deposit(amount):
+    IF amount IS NEGATIVE OR ZERO:
+      THROW IllegalArgumentException("Deposit amount must be positive.")
+    
+    SET name
+    SET accountID
+    SET initial balance
+  
+  FUNCTION withdrawal(amount):
+    IF amount IS NEGATIVE OR ZERO:
+      THROW IllegalArgumentException("Withdrawal amount must be positive.")
+    IF amount IS GREATER THAN balance:
+      THROW IllegalArgumentException("Insufficient funds for withdrawal.")
+    
+    SUBTRACT amount FROM balance
+    PRINT "Withdrawn $amount. New balance: $balance."
+  
+  FUNCTION getFirstName():
+    RETURN this.firstName
+  
+  FUNCTION setFirstName(firstName):
+    IF firstName IS NULL OR EMPTY:
+      THROW IllegalArgumentException("First name cannot be null or empty.")
+    SET this.firstName TO firstName
+  
+  FUNCTION getLastName():
+    RETURN this.lastName
+  
+  FUNCTION setLastName(lastName):
+    IF lastName IS NULL OR EMPTY:
+      THROW IllegalArgumentException("Last name cannot be null or empty.")
+    SET this.lastName TO lastName
+  
+  FUNCTION getAccountID():
+    RETURN this.accountID
+  
+  FUNCTION setAccountID(accountID):
+    IF accountID IS NEGATIVE:
+      THROW IllegalArgumentException("Account ID must be a positive integer.")
+    SET this.accountID TO accountID
+  
+  FUNCTION getBalance():
+    RETURN this.balance
+  
+  FUNCTION accountSummary():
+    PRINT "Account Summary:"
+    PRINT "Name: " + firstName + " " + lastName
+    PRINT "Account ID: " + accountID
+    PRINT "Balance: $" + balance
+
+
+CheckingAccount Class: Expands on BankAccount, inherits all basic properties and methodsz anxzd adds an interest rate along with the ability to overdraw funds with a $30 penalty.
+
+CLASS CheckingAccount(firstName, lastName, accountID):
+  private double interestRate;
+  private static final double OVERDRAFT_FEE = 30.0;
+
+  Constructor CheckingAccount(firstName, lastName, accountID, interestRate):
+    (Superclass Constructor)(firstName, lastName, accountID) 
+
+    IF interestRate IS NEGATIVE:
+      THROW IllegalArgumentException("Interest rate cannot be negative.")
+    
+    SET this.interestRate TO interestRate
+
+  FUNCTION processWithdrawal(amount):
+    IF amount IS NEGATIVE OR ZERO:
+      THROW IllegalArgumentException("Withdrawal amount must be positive.")
+    IF amount IS LESS THAN OR EQUAL TO balance:
+      CALL withdrawal(amount) (Superclass Method)
+    ELSE:
+      SUBTRACT amount + 30.0 FROM balance
+      PRINT "Overdraft! Withdrawn $amount with a $30.0 fee. New balance: $balance."
+
+  FUNCTION getInterestRate():
+    RETURN this.interestRate
+
+  FUNCTION displayAccount():
+    CALL accountSummary() (Superclass Method)
+    PRINT "Interest Rate: " + interestRate + "%"
