@@ -1,0 +1,106 @@
+This was the plan: 
+  When the program starts, the user will be greeted with a dialog prompting them to enter their initial bank balance. 
+  After entering a value and clicking submit, the dialog will either close and continue if the input is valid, or display a message prompting the user to try again.
+  Once a valid balance is entered, the main application window will appear, displaying the balance centered at the top in slightly larger text for emphasis. 
+  Below the balance, the user will see three buttons arranged horizontally: Deposit, Withdraw, and Exit. 
+  When the user clicks Deposit or Withdraw, a new dialog will open with an input field and a submit button, allowing them to enter a transaction amount. 
+  If the input is valid, the balance will be updated and reflected in the main window; otherwise, the dialog will prompt the user to enter a valid value. 
+  If the user clicks Exit, a confirmation dialog will appear with Yes and No buttons. 
+  Selecting Yes will close both the dialog and the main window, while selecting No will simply close the dialog and return the user to the application.
+
+Then I realized that Initial Balance Dialogue, Deposit Dialogue and Withdrawal Dialogue are all very similar in structure (reminds me of react components), and showExitConfirmationDialog
+I made a reusable method for the same dialogue logic (showInputDialogWithAction) that receives the message/purpose and the action to be taken. 
+The exit button dialogue is different though, because it's a yes or no scenario rather than a value-action process (showExitConfirmationDialog). 
+
+CLASS BankBalanceApp:
+  PRIVATE STATIC DOUBLE balance ← 0.0
+  PRIVATE STATIC JLabel balanceLabel
+
+  FUNCTION main():
+    Prompt user for initial balance using reusable input dialog
+    CALL showInputDialogWithAction(
+      title = "Initial Balance",
+      message = "Enter initial bank account balance:",
+      action = (amount → balance ← amount)
+    )
+
+    Initialize main application frame
+    CREATE JFrame frame WITH title "Bank Balance Application"
+    SET default close operation TO EXIT_ON_CLOSE
+    SET size TO (400, 200)
+    SET layout TO BorderLayout
+
+    Display current balance label at top (bold + centered)
+    CREATE JLabel balanceLabel WITH TEXT "Current Balance: $<balance>"
+    SET font TO bold and slightly larger
+    SET alignment TO CENTER
+    ADD balanceLabel TO frame.NORTH
+
+    Create horizontal button panel
+    CREATE JPanel buttonPanel
+    SET layout TO FlowLayout (centered, horizontal spacing)
+
+    CREATE JButton depositBtn WITH TEXT "Deposit"
+    CREATE JButton withdrawBtn WITH TEXT "Withdraw"
+    CREATE JButton exitBtn WITH TEXT "Exit"
+
+    ADD depositBtn, withdrawBtn, exitBtn TO buttonPanel
+    ADD buttonPanel TO frame.CENTER
+
+    Button Actions
+    ON depositBtn CLICK:
+      CALL showInputDialogWithAction(
+        title = "Deposit",
+        message = "Enter amount to deposit:",
+        action = (amount → balance ← balance + amount)
+      )
+
+    ON withdrawBtn CLICK:
+      CALL showInputDialogWithAction(
+        title = "Withdraw",
+        message = "Enter amount to withdraw:",
+        action = (
+          IF amount > balance:
+            SHOW dialog "Insufficient funds."
+          ELSE:
+            balance ← balance - amount
+        )
+      )
+
+    ON exitBtn CLICK:
+      CALL showExitConfirmationDialog(frame)
+
+    CENTER frame ON SCREEN
+    SHOW frame
+
+  FUNCTION showInputDialogWithAction(title, message, onValidInput):
+    LOOP forever:
+      CREATE JTextField amountInput
+      CREATE JPanel panel WITH GridLayout(2,1)
+      ADD JLabel(message) AND amountInput TO panel
+
+      DISPLAY confirm dialog WITH panel, title, and OK_CANCEL option
+      IF user selects OK:
+        TRY:
+          PARSE amountInput TEXT TO DOUBLE amount
+          IF amount <= 0:
+            THROW NumberFormatException
+          CALL onValidInput WITH amount
+          IF balanceLabel IS NOT NULL:
+            CALL updateBalanceLabel()
+          BREAK loop
+        CATCH NumberFormatException:
+          SHOW dialog "Please enter a valid positive number."
+      ELSE:
+        BREAK loop
+
+  FUNCTION showExitConfirmationDialog(frame):
+    DISPLAY confirmation dialog:
+      "Are you sure you want to exit? Final Balance: $<balance>"
+      OPTIONS: YES / NO
+
+    IF user selects YES:
+      CLOSE frame
+
+  FUNCTION updateBalanceLabel():
+    SET balanceLabel TEXT TO "Current Balance: $<balance>"
