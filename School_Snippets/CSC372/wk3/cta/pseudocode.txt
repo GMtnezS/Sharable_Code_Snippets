@@ -1,0 +1,55 @@
+When the program starts, the user is presented with a main window that has a horizontal navigation menu at the top containing the four buttons. 
+The center of the window is a scrollable display area where the date/time messages get shown.
+ (after trying different text box alternatives, I ended up using a JTextPane as it's the one that felt the most natural). 
+
+When the user clicks "Show Date & Time", the current date and time is appended to the display in italic, centered text. 
+Notice you can ask as many as you'd like, and it allows for scrolling when there's too many. 
+
+Clicking "Save to log.txt" writes the current contents of the text pane to a text file named log.txt, nothing fancy here.
+
+Clicking "Green Background" changes the background color of the center panel and text area to a randomly generated green hue.
+You can continue clicking the button to try out different random hues until you find the one you like. 
+
+Finally, clicking "Exit" prompts the user with a confirmation dialog. If the user confirms, the program closes; otherwise, it returns to the application window.
+
+CLASS HueApp:
+  PRIVATE STATIC JTextPane textPane
+  PRIVATE STATIC Color randomGreen
+
+    FUNCTION appendCenteredText(text):
+      Get StyledDocument from textPane
+      Create and configure SimpleAttributeSet with:
+      ALIGN_CENTER, Italic font, Font size 20, Set foreground color
+      Insert text and apply paragraph attributes
+
+    FUNCTION showExitConfirmationDialog(frame):
+      Display confirmation dialog:
+      "Are you sure you want to exit?"
+      IF user selects YES: frame.dispose()
+
+    FUNCTION generateRandomGreenHue():
+      To get green, generate random RGB values with: Low red, High green, Optional blue tint
+      RETURN new Color(r, g, b)
+
+
+    FUNCTION main():
+      Create main frame titled "Hue App"
+      Set default close operation, size, and layout
+      Create and configure textPane for styled, read-only, scrollable text display
+      Wrap textPane in JScrollPane and add to a JPanel with GridBagLayout for vertical centering
+      Add this center panel to frame.CENTER
+
+      Create Navigation Bar:
+        Instantiate a JPanel with FlowLayout
+        Create buttons: showDateTimeBtn, saveToFileBtn, changeColorBtn, exitBtn
+        Add all buttons to the nav bar
+        Add nav bar to frame.NORTH
+
+      Button Behaviors:
+        ON showDateTimeBtn CLICK: Get current datetime; CALL appendCenteredText(now)
+
+        ON saveToFileBtn CLICK: Write contents of textPane to "log.txt"; Show confirmation dialog
+
+        ON changeColorBtn CLICK: Generate a random green hue; Set background color of center panel, viewport, and textPane
+
+        ON exitBtn CLICK: CALL showExitConfirmationDialog(frame)
