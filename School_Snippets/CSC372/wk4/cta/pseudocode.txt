@@ -1,0 +1,88 @@
+Each shape class implements the required area and perimeter calculations while maintaining consistent formatting, so the shape class only has two required methods for each operation.
+
+Shape Class: This abstract class serves as the base for all geometric shapes, defining the required methods that each shape must implement.
+
+CLASS Shape:
+  abstract FUNCTION area():
+    RETURN double
+
+  abstract FUNCTION perimeter():
+    RETURN double
+
+Rectangle Class: Implements the Shape interface with width and length properties.
+
+CLASS Rectangle(width, length):
+  private double width
+  private double length
+
+  Constructor Rectangle:
+    SET this.width TO width
+    SET this.length TO length
+
+  FUNCTION area():
+    RETURN width * length
+
+  FUNCTION perimeter():
+    RETURN 2 * (width + length)
+
+  FUNCTION toString():
+    RETURN "Rectangle - Area: %.1f, Perimeter: %.1f" FORMATTED WITH area(), perimeter()
+
+Circle Class: Implements the Shape interface with radius property.
+
+CLASS Circle(radius):
+  private double radius
+
+  Constructor Circle:
+    SET this.radius TO radius
+
+  FUNCTION area():
+    RETURN π * radius²
+
+  FUNCTION perimeter():
+    RETURN 2 * π * radius
+
+  FUNCTION toString():
+    RETURN "Circle - Area: %.4f, Perimeter: %.4f" FORMATTED WITH area(), perimeter()
+
+Triangle Class: Implements the Shape interface with three side lengths.
+
+CLASS Triangle(side1, side2, side3):
+  private double side1
+  private double side2
+  private double side3
+
+  Constructor Triangle:
+    SET this.side1 TO side1
+    SET this.side2 TO side2
+    SET this.side3 TO side3
+
+  FUNCTION area():
+    SET s TO perimeter() / 2
+    RETURN √(s * (s - side1) * (s - side2) * (s - side3))
+
+  FUNCTION perimeter():
+    RETURN side1 + side2 + side3
+
+  FUNCTION toString():
+    RETURN "Triangle - Area: %.1f, Perimeter: %.1f" FORMATTED WITH area(), perimeter()
+
+ShapeArray Class: Demonstrates the use of the shape hierarchy by creating and displaying different shapes.
+
+CLASS ShapeArray:
+  FUNCTION main():
+    CREATE Shape[] shapeArray WITH SIZE 3
+    SET shapeArray[0] TO NEW Triangle(3, 4, 5)
+    SET shapeArray[1] TO NEW Circle(5)
+    SET shapeArray[2] TO NEW Rectangle(4, 6)
+    
+    SET message TO buildShapeMessage(shapeArray)
+    PRINT message
+
+  FUNCTION buildShapeMessage(shapes):
+    CREATE StringBuilder message
+    FOR EACH shape IN shapes:
+      APPEND shape.toString() TO message
+      APPEND newline TO message
+    RETURN message.toString().trim()
+
