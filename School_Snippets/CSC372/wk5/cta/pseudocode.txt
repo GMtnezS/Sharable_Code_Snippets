@@ -1,0 +1,63 @@
+The most interesting part of this project was the user input mock up - turns out "mocking" scanner behavior is not as easy as I thought it would be. 
+However, by letting getInput receive a scanner instance instead was pretty straightforward. What would be a more ideal setup in the real world? 
+
+CLASS RecursiveProduct
+
+    FUNCTION main(args)
+        // Create a Scanner object for user input
+        DECLARE scanner AS Scanner
+        SET scanner = new Scanner(System.in)
+
+        // Get user input
+        DECLARE numbers AS ARRAY OF INTEGERS
+        SET numbers = getInput(scanner)
+
+        // Compute the product of the numbers
+        DECLARE product AS INTEGER
+        SET product = computeProduct(numbers, 0)
+
+        // Display the result
+        CALL displayResult(product)
+
+        // Close the scanner
+        CALL scanner.close()
+
+    END FUNCTION
+
+    FUNCTION getInput(scanner)
+        // Initialize an array to hold five integers
+        DECLARE numbers AS ARRAY OF INTEGERS WITH SIZE 5
+        PRINT "Enter 5 numbers:"
+
+        // Loop to get input from the user
+        FOR i FROM 0 TO 4 DO
+            PRINT "Number " + (i + 1) + ": "
+            // Read an integer from the scanner
+            SET numbers[i] = scanner.nextInt()
+        END FOR
+
+        RETURN numbers
+    END FUNCTION
+
+    FUNCTION computeProduct(nums, index)
+        // Base case: if index is the last element, return that element
+        IF index == LENGTH(nums) - 1 THEN
+            RETURN nums[index]
+        END IF
+
+        // Recursive case: multiply current element with the product of the rest
+        RETURN nums[index] * computeProduct(nums, index + 1)
+    END FUNCTION
+
+    FUNCTION displayResult(product)
+        // Create a message string
+        DECLARE message AS STRING
+        SET message = "The product of the numbers is: " + product
+
+        // Print the message
+        PRINT message
+
+        RETURN message
+    END FUNCTION
+
+END CLASS
