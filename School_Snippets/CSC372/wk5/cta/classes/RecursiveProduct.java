@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 /**
  *
- * This program prompts the user to enter five integers,
+ * This program prompts the user to enter five long integers,
  * calculates the product using recursion, and displays the result.
  *
  */
@@ -25,9 +25,9 @@ public class RecursiveProduct {
 
 
     /**
-     * Prompts the user to enter five integers and returns them in an array.
+     * Prompts the user to enter five long integers and returns them in an array.
      *
-     * @return an array containing the five integers entered by the user
+     * @return an array containing the five long integers entered by the user
      */
     public static long[] getInput(Scanner scanner) {
         long[] numbers = new long[5];
@@ -46,12 +46,12 @@ public class RecursiveProduct {
         }
         return numbers;
     }
-    
+
 
     /**
      * Recursively calculates the product of the elements in the array starting from a given index.
      *
-     * @param nums  the array of integers
+     * @param nums  the array of long integers
      * @param index the current index in the array
      * @return the product of the elements from index to the end of the array
      */
