@@ -3,35 +3,20 @@ package classes;
 /**
  * Represents a student with a roll number, name, and address.
  */
+
 public class Student {
-    private int rollno;
     private String name;
     private String address;
+    private double gpa;
 
-    /**
-     * Constructs a Student object with the specified roll number, name, and address.
-     *
-     * @param rollno  the roll number of the student
-     * @param name    the name of the student
-     * @param address the address of the student
-     */
-    public Student(int rollno, String name, String address) {
-        if (rollno <= 0) {
-            throw new IllegalArgumentException("Roll number must be positive.");
-        }
-        if (name == null || name.isEmpty()) {
-            throw new IllegalArgumentException("Name cannot be null or empty.");
-        }
-        if (address == null || address.isEmpty()) {
-            throw new IllegalArgumentException("Address cannot be null or empty.");
-        }
-        this.rollno = rollno;
+    public Student(String name, String address, double gpa) {
+        if (name == null || name.isEmpty()) throw new IllegalArgumentException("Name cannot be empty.");
+        if (address == null || address.isEmpty()) throw new IllegalArgumentException("Address cannot be empty.");
+        if (gpa < 0.0 || gpa > 4.0) throw new IllegalArgumentException("GPA must be between 0.0 and 4.0");
+
         this.name = name;
         this.address = address;
-    }
-
-    public int getRollno() {
-        return rollno;
+        this.gpa = gpa;
     }
 
     public String getName() {
@@ -42,8 +27,22 @@ public class Student {
         return address;
     }
 
+    public double getGpa() {
+        return gpa;
+    }
+
+    public void setAddress(String address) {
+        if (address == null || address.isEmpty()) throw new IllegalArgumentException("Address cannot be empty.");
+        this.address = address;
+    }
+
+    public void setGpa(double gpa) {
+        if (gpa < 0.0 || gpa > 4.0) throw new IllegalArgumentException("GPA must be between 0.0 and 4.0");
+        this.gpa = gpa;
+    }
+
     @Override
     public String toString() {
-        return rollno + " | " + name + " | " + address;
+        return name + " | " + address + " | GPA: " + gpa;
     }
 }

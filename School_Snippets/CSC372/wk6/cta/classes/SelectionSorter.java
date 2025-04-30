@@ -1,6 +1,6 @@
 package classes;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Comparator;
 
 /**
@@ -14,7 +14,7 @@ public class SelectionSorter {
      * @param comparator the comparator to determine the order of the students
      * @throws IllegalArgumentException if the list or comparator is null
      */
-    public static void selectionSort(ArrayList<Student> list, Comparator<Student> comparator) {
+    public static void selectionSort(LinkedList<Student> list, Comparator<Student> comparator) {
         if (list == null) {
             throw new IllegalArgumentException("List cannot be null.");
         }

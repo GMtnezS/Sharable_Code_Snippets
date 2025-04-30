@@ -3,59 +3,77 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+
+import java.util.Scanner;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
+import org.junit.Before;
 
 public class ClassroomTest {
 
-    @Test
-    public void testStudentCreation() {
-        Student student = new Student(1, "Alice", "New York");
-        assertEquals(1, student.getRollno());
-        assertEquals("Alice", student.getName());
-        assertEquals("New York", student.getAddress());
+
+    @Before
+    public void resetBeforeEachTest() {
+        Classroom.clearStudents();
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testStudentCreationWithNegativeRollno() {
-        new Student(-1, "Alice", "New York");
+    @Test
+    public void testStudentCreation() {
+        Student student = new Student("Alice", "New York", 3.5);
+        assertEquals("Alice", student.getName());
+        assertEquals("New York", student.getAddress());
+        assertEquals(3.5, student.getGpa(), 0.001);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testStudentCreationWithEmptyName() {
-        new Student(1, "", "New York");
+        new Student("", "New York", 3.0);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testStudentCreationWithNullAddress() {
-        new Student(1, "Alice", null);
+        new Student("Alice", null, 3.0);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testStudentCreationWithInvalidGpaNegative() {
+        new Student("Alice", "New York", -1.0);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testStudentCreationWithInvalidGpaTooHigh() {
+        new Student("Alice", "New York", 4.5);
     }
 
     @Test
     public void testGenericComparatorByName() {
         ArrayList<Student> students = new ArrayList<>();
-        students.add(new Student(2, "Bob", "Los Angeles"));
-        students.add(new Student(1, "Alice", "New York"));
+        students.add(new Student("Bob", "Los Angeles", 3.2));
+        students.add(new Student("Alice", "New York", 3.5));
 
         students.sort(new GenericComparator("name"));
         assertEquals("Alice", students.get(0).getName());
     }
 
     @Test
-    public void testGenericComparatorByRollno() {
+    public void testGenericComparatorByAddress() {
         ArrayList<Student> students = new ArrayList<>();
-        students.add(new Student(2, "Bob", "Los Angeles"));
-        students.add(new Student(1, "Alice", "New York"));
+        students.add(new Student("Bob", "Los Angeles", 3.2));
+        students.add(new Student("Alice", "New York", 3.5));
 
-        students.sort(new GenericComparator("rollno"));
-        assertEquals(1, students.get(0).getRollno());
+        students.sort(new GenericComparator("address"));
+        assertEquals("Bob", students.get(0).getName());
     }
 
     @Test
-    public void testGenericComparatorByAddress() {
+    public void testGenericComparatorByGpa() {
         ArrayList<Student> students = new ArrayList<>();
-        students.add(new Student(2, "Bob", "Los Angeles"));
-        students.add(new Student(1, "Alice", "New York"));
+        students.add(new Student("Bob", "Los Angeles", 3.2));
+        students.add(new Student("Alice", "New York", 3.5));
 
-        students.sort(new GenericComparator("address"));
+        students.sort(new GenericComparator("gpa"));
         assertEquals("Bob", students.get(0).getName());
     }
 
@@ -66,20 +84,20 @@ public class ClassroomTest {
 
     @Test
     public void testSelectionSorter() {
-        ArrayList<Student> students = new ArrayList<>();
-        students.add(new Student(2, "Bob", "Los Angeles"));
-        students.add(new Student(1, "Alice", "New York"));
-        students.add(new Student(3, "Charlie", "Chicago"));
+        LinkedList<Student> students = new LinkedList<>();
+        students.add(new Student("Bob", "Los Angeles", 3.2));
+        students.add(new Student("Alice", "New York", 3.5));
+        students.add(new Student("Charlie", "Chicago", 3.1));
 
-        SelectionSorter.selectionSort(students, new GenericComparator("rollno"));
-        assertEquals(1, students.get(0).getRollno());
-        assertEquals(2, students.get(1).getRollno());
-        assertEquals(3, students.get(2).getRollno());
+        SelectionSorter.selectionSort(students, new GenericComparator("name"));
+        assertEquals("Alice", students.get(0).getName());
+        assertEquals("Bob", students.get(1).getName());
+        assertEquals("Charlie", students.get(2).getName());
     }
 
     @Test
     public void testSelectionSorterWithEmptyList() {
-        ArrayList<Student> students = new ArrayList<>();
+        LinkedList<Student> students = new LinkedList<>();
         SelectionSorter.selectionSort(students, new GenericComparator("name"));
         assertTrue(students.isEmpty());
     }
@@ -91,7 +109,94 @@ public class ClassroomTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testSelectionSorterWithNullComparator() {
-        ArrayList<Student> students = new ArrayList<>();
+        LinkedList<Student> students = new LinkedList<>();
         SelectionSorter.selectionSort(students, null);
     }
-}
+
+    @Test
+    public void testAddStudentFlow() {
+        String input = "1\nJohn Doe\n123 Main St\n3.5\n6\n"; // Add -> Exit
+        Scanner scanner = new Scanner(input);
+
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(output));
+
+        Classroom.run(scanner);
+
+        String result = output.toString();
+        assertTrue(result.contains("Student added successfully."));
+    }
+
+    @Test
+    public void testInvalidGpaInputRecovery() {
+        String input = "1\nJane Doe\n456 Oak Ave\nabc\n4.5\n3.8\n6\n"; // Add -> Tries invalid GPAs, then valid GPAs -> Exit
+        Scanner scanner = new Scanner(input);
+
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(output));
+
+        Classroom.run(scanner);
+
+        String result = output.toString();
+        assertTrue(result.contains("Invalid GPA. Please enter a number between 0.0 and 4.0."));
+        assertTrue(result.contains("Student added successfully."));
+    }
+
+    @Test
+    public void testRemoveStudentFlow() {
+        String input = "1\nJohn Smith\n999 Elm Rd\n3.2\n4\nJohn Smith\n6\n"; // Add -> Remove -> Exit
+        Scanner scanner = new Scanner(input);
+
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(output));
+
+        Classroom.run(scanner);
+
+        String result = output.toString();
+        assertTrue(result.contains("If present, student has been removed."));
+    }
+
+    @Test
+    public void testUpdateStudentFlow() {
+        String input = "1\nAna Bell\n345 River St\n3.1\n3\nAna Bell\n456 Stream Blvd\ny\n3.6\n6\n"; // Add -> Update -> Exit
+        Scanner scanner = new Scanner(input);
+
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(output));
+
+        Classroom.run(scanner);
+
+        String result = output.toString();
+        assertTrue(result.contains("Student updated."));
+    }
+
+    @Test
+    public void testExportEmptyStudentList() {
+        Classroom.clearStudents();
+
+        String input = "5\n6\n"; // Export -> Exit
+        Scanner scanner = new Scanner(input);
+
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(output));
+
+        Classroom.run(scanner);
+
+        String result = output.toString();
+        assertTrue(result.contains("No students to export."));
+    }
+
+    @Test
+    public void testInvalidMenuOption() {
+        String input = "99\n6\n"; // Invalid -> Exit
+        Scanner scanner = new Scanner(input);
+
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(output));
+
+        Classroom.run(scanner);
+
+        String result = output.toString();
+        assertTrue(result.contains("Invalid option. Try again."));
+    }
+} 
