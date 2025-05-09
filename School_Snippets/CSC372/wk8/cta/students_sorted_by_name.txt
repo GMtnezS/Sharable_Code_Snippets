@@ -1,0 +1,2 @@
+Jane Smith | 456 Oak Ave | GPA: 3.8
+John Doe | 123 Main St | GPA: 3.5

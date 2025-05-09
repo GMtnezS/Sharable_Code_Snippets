@@ -1,0 +1,91 @@
+Not making any changes to this file or retaking the screenshot, 
+    since as-is the classes in the classes folder already met all requirements needed for the capstone instructions (intentionally did wk6 like so). 
+However, to note that I did add new tests to highlight the requirements in the assignment. 
+
+CLASS SelectionSorter
+
+    FUNCTION selectionSort(list, comparator)
+        IF list IS NULL OR comparator IS NULL THEN
+            THROW IllegalArgumentException
+        END IF
+
+        FOR i FROM 0 TO LENGTH(list) - 2 DO
+            SET minIndex = i
+            FOR j FROM i + 1 TO LENGTH(list) - 1 DO
+                IF comparator.compare(list[j], list[minIndex]) < 0 THEN
+                    SET minIndex = j
+                END IF
+            END FOR
+
+            // Swap list[i] with list[minIndex]
+            SET temp = list[i]
+            SET list[i] = list[minIndex]
+            SET list[minIndex] = temp
+        END FOR
+    END FUNCTION
+
+END CLASS
+
+
+CLASS GenericComparator IMPLEMENTS Comparator<Student>
+
+    DECLARE fieldName AS String
+    DECLARE field AS Field
+
+    CONSTRUCTOR GenericComparator(fieldName)
+        IF fieldName IS NULL OR EMPTY THEN
+            THROW IllegalArgumentException
+        END IF
+
+        TRY
+            SET field = getDeclaredField FROM Student CLASS USING fieldName
+            CALL field.setAccessible(TRUE)
+            SET this.fieldName = fieldName
+        CATCH NoSuchFieldException
+            THROW IllegalArgumentException("Invalid field: " + fieldName)
+        END TRY
+    END CONSTRUCTOR
+
+    FUNCTION compare(a, b)
+        IF a OR b IS NULL THEN
+            THROW IllegalArgumentException
+        END IF
+
+        GET valA = field.get(a)
+        GET valB = field.get(b)
+
+        IF valA AND valB ARE BOTH Comparable THEN
+            CAST valA TO Comparable<Object> AS compA
+            RETURN compA.compareTo(valB)
+        ELSE
+            THROW IllegalArgumentException("Field not comparable")
+        END IF
+    END FUNCTION
+
+END CLASS
+
+
+CLASS Student
+
+    FIELDS:
+        rollno AS int
+        name AS String
+        address AS String
+
+    CONSTRUCTOR Student(rollno, name, address)
+        IF rollno <= 0 OR name IS NULL/EMPTY OR address IS NULL/EMPTY THEN
+            THROW IllegalArgumentException
+        END IF
+
+        SET this.rollno = rollno
+        SET this.name = name
+        SET this.address = address
+    END CONSTRUCTOR
+
+    GETTERS: getRollno(), getName(), getAddress()
+
+    FUNCTION toString()
+        RETURN rollno + " | " + name + " | " + address
+    END FUNCTION
+
+END CLASS
