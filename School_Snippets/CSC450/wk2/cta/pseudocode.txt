@@ -1,0 +1,48 @@
+Start
+
+  Define a map called inputConfigs:
+    Keys are input types: "name", "email", "location"
+    Values are objects with the label and delimeter associated to that key/type
+
+  Extract keys from inputConfigs into a list called inputOptions
+
+  Ask the user to choose an input type (from inputOptions or "all")
+
+  Define class InputHandler
+    - Private members:
+        - inputType: string
+        - labels: array<string, 2>
+        - inputs: array<string, 2>
+        - combinedResult: string
+
+    - Public methods:
+        - Constructor(InputType)
+            - Assign inputType
+            - Look up labels in the inputConfigs map and assign to labels
+        - getInput()
+            - For each label, prompt the user and store the response in inputs
+        - combineInputs()
+            - Based on inputType, format the result appropriately:
+                - "name" → first + " " + second
+                - "email" → first + "@" + second
+                - "location" → first + ", " + second
+            - Store result in combinedResult
+        - printResult(index)
+            - Output: "Result {index} ({inputType}): {combinedResult}"
+            - Return combinedResult
+
+  If user selected "all":
+    For each type in inputOptions:
+        Create InputHandler instance with current type
+        Call getInput()
+        Call combineInputs()
+        Call printResult(index)
+
+  Else:
+    Create InputHandler instance with selected inputType
+    Call getInput()
+    Call combineInputs()
+    Call printResult(1)
+
+End
+

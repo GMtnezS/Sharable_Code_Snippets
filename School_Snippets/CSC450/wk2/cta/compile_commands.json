@@ -1,0 +1,7 @@
+[
+  {
+    "directory": "/Users/gmtnezschezyahoo.com/Documents/GitHub/Sharable_Code_Snippets/School_Snippets/CSC450/wk2/cta",
+    "command": "/Library/Developer/CommandLineTools/usr/bin/g++ -std=c++11 -Wall M1CTA.cpp -o M1CTA",
+    "file": "M1CTA.cpp"
+  }
+]

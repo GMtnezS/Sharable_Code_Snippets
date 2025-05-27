@@ -1,0 +1,3 @@
+Language: Cpp
+Standard: c++11
+BasedOnStyle: Google 
