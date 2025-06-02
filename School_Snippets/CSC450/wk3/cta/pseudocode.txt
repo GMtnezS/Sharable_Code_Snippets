@@ -1,0 +1,38 @@
+Start
+
+Prompt the user: "Enter three integer values"
+Define a list called labels with values: ["First Value", "Second Value", "Third Value"]
+
+Define class IntPointerHandler
+    - Private members:
+        - label: string
+        - value: int
+        - pointer: int*
+        - counter: int
+
+    - Public methods:
+        - Constructor(label, index)
+            - Assign label
+            - Assign counter = index + 1
+            - Allocate memory using new int
+        - getInput()
+            - Prompt the user using the label
+            - Read input as string
+            - Convert input to int and store in *pointer
+            - Also assign *pointer to value (optional if not used elsewhere)
+        - printResult()
+            - Output:
+              "Result {counter} ({label}): Value = {value}, Pointer Value = {*pointer}, Pointer Address = {pointer}"
+        - cleanup()
+            - Free memory using delete pointer
+
+For each label in labels (track index):
+    - Create an IntPointerHandler with current label and index
+    - Call getInput() on handler
+    - Call printResult()
+    - Call cleanup() on handler
+
+End
+
+
+PS: https://github.com/GMtnezS/Sharable_Code_Snippets/tree/main/School_Snippets/CSC450/wk3/cta 
