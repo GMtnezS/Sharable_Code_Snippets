@@ -1,0 +1,69 @@
+Start
+
+ Define constants:
+     - inputFilename = "CSC450_CT5_mod5.txt"
+     - outputFilename = "CSC450-mod5-reverse.txt"
+
+ Define class FileHandler
+     - Private members:
+         - inputFile: string
+         - outputFile: string
+
+     - Public methods:
+         - Constructor(inputFile, outputFile)
+             - Assign inputFile and outputFile
+
+         - readFile() -> string
+             - Open inputFile in read mode
+             - If file fails to open:
+                 - Output error message
+                 - Exit program
+             - Read entire content into a string variable
+             - Close the input file
+             - Return the content
+
+         - appendToFile(filePath: string, text: string)
+             - Open filePath in append mode (std::ios::app)
+             - If file fails to open:
+                 - Output error message
+                 - Exit program
+             - Append text followed by newline to file
+             - Close the file
+
+         - clearFile(filePath: string)
+             - Open filePath in write mode with truncate flag (ios::out | ios::trunc)
+             - If file fails to open:
+                 - Output error message: "Error: Could not clear file [filePath]."
+                 - Exit program
+             - Close the file
+
+         - reverseContent(text: string) -> string
+             - Initialize empty string reversedText
+             - Loop from text.length - 1 down to 0:
+                 - Append text[i] to reversedText
+             - Return reversedText
+
+         - logReversedContent(text: string)
+             - Call reverseContent(text) and store result
+             - Clear outputFile content, prior to rewrite
+             - Call appendToFile(outputFile, reversed string)
+
+ Main Logic:
+     - Create a FileHandler object using inputFilename and outputFilename
+
+     - While true:
+         - Prompt the user: "Enter a line of text to append to the file"
+         - Read inputLine from console
+         - Call appendToFile(inputFilename, inputLine)
+
+         - Call readFile() from handler and store in originalText
+         - Call logReversedContent(originalText)
+
+         - Output: "Input saved and reversed content written to CSC450-mod5-reverse.txt"
+
+         - Prompt the user: "Do you want to add more input? (yes/no)"
+         - If user response is not "yes", break loop
+
+ End
+
+PS: https://github.com/GMtnezS/Sharable_Code_Snippets/tree/main/School_Snippets/CSC450/wk5/cta 
