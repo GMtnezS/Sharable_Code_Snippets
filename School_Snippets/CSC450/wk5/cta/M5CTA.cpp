@@ -3,6 +3,19 @@
 #include <string>
 using namespace std;
 
+/*
+    This program lets users jot down lines of text that get added to a running log 
+    stored in "CSC450_CT5_mod5.txt". Each time an entry is added, 
+    the program reads the entire file and creates a reversed version of its contents, 
+    storing it in "CSC450-mod5-reverse.txt".
+
+    This setup helps demonstrate file I/O operations, string manipulation, and good 
+    practices around separating logic using classes and methods. It ensures the reversed 
+    file always mirrors the latest state of the original — no duplication, no data loss.
+
+    The program keeps prompting for more input until the user decides to stop.
+*/
+
 class FileHandler {
 private:
     string inputFile;
@@ -78,20 +91,28 @@ int main() {
     const string inputFilename = "CSC450_CT5_mod5.txt";
     const string outputFilename = "CSC450-mod5-reverse.txt";
 
+// Create file handler instance with filenames
     FileHandler handler(inputFilename, outputFilename);
 
     while (true) {
+        // Prompt user for input
         cout << "Enter a line of text to append to the file: ";
         string inputLine;
         getline(cin, inputLine);
 
+        // Append the user input to the input file
         handler.appendToFile(inputFilename, inputLine);
 
+        // Read the full content of the input file
         string originalText = handler.readFile();
+
+        // Reverse the content and write it to the output file
         handler.logReversedContent(originalText);
 
+        // Inform user of action taken
         cout << "Input saved and reversed content written to " << outputFilename << "." << endl;
 
+        // Ask user if they want to continue
         cout << "Do you want to add more input? (yes/no): ";
         string response;
         getline(cin, response);
@@ -100,6 +121,7 @@ int main() {
             break;
         }
     }
+
 
     return 0;
 }
