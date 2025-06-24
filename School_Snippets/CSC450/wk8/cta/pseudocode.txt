@@ -1,0 +1,36 @@
+[Not much different from last week's] 
+
+Start
+
+Define class CounterManager
+    - Private:
+        - int count
+        - Object lock (for synchronization)
+
+    - Constructor(max):
+        - Set count to max
+        - Initialize lock object
+
+    - Method countUp():
+        - For i from 1 to count:
+            - Synchronize on lock:
+                - Print "Counting Up: i"
+
+    - Method countDown():
+        - For i from count down to 0:
+            - Synchronize on lock:
+                - Print "Counting Down: i"
+
+Main Logic:
+    - Initialize count to 20
+    - Create CounterManager instance with count
+
+    - Create and start Thread 1 to run countUp()
+    - Wait for Thread 1 to finish
+
+    - Create and start Thread 2 to run countDown()
+    - Wait for Thread 2 to finish
+
+    - Print "Counting complete."
+
+End
