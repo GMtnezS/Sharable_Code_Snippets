@@ -1,0 +1,40 @@
+Start
+
+ Define class CounterManager
+    - Private members:
+        - count: int
+        - mutexLock: std::mutex
+
+    - Public methods:
+
+        - Constructor(count: int)
+            - Assign count
+
+        - countUp()
+            - Loop from i = 1 to count:
+                - Lock mutex
+                - Output: "Counting Up: i"
+                - Unlock mutex
+                - Sleep for small delay (optional)
+
+        - countDown()
+            - Loop from i = count down to 0:
+                - Lock mutex
+                - Output: "Counting Down: i"
+                - Unlock mutex
+                - Sleep for small delay (optional)
+
+Main Logic:
+    - Instantiate CounterManager with a COUNT (20)
+
+    - Create thread1 using countUp() method
+    - Wait for thread1 to complete (join)
+
+    - Create thread2 using countDown() method
+    - Wait for thread2 to complete (join)
+
+    - Output: "Counting complete."
+
+ End
+
+PS: https://github.com/GMtnezS/Sharable_Code_Snippets/tree/main/School_Snippets/CSC450/wk7/cta
