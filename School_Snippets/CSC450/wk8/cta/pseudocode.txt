@@ -34,3 +34,6 @@ Main Logic:
     - Print "Counting complete."
 
 End
+
+
+PS: https://github.com/GMtnezS/Sharable_Code_Snippets/tree/main/School_Snippets/CSC450/wk8/cta
