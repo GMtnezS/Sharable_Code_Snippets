@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Painter’s Algorithm Demo</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+  <div class="controls">
+    Radius: <input id="radiusSlider" type="range" min="1" max="10" step="0.1" value="3">
+    θ: <input id="thetaSlider" type="range" min="0" max="π" step="0.01" value="1.0">
+    φ: <input id="phiSlider" type="range" min="0" max="2π" step="0.01" value="0.8">
+    <!-- ortho sliders -->
+    Left: <input id="leftSlider" type="range" min="-5" max="0" step="0.1" value="-2">
+    Right: <input id="rightSlider" type="range" min="0" max="5" step="0.1" value="2">
+    Bottom: <input id="bottomSlider" type="range" min="-5" max="0" step="0.1" value="-2">
+    YTop: <input id="ytopSlider" type="range" min="0" max="5" step="0.1" value="2">
+    Near: <input id="nearSlider" type="range" min="0.1" max="10" step="0.1" value="0.1">
+    Far: <input id="farSlider" type="range" min="1" max="20" step="0.1" value="10">
+  </div>
+
+  <canvas id="gl-canvas" width="600" height="600"></canvas>
+  <script src="js/lib/MV.js"></script>
+  <script src="js/lib/initShaders.js"></script>
+
+  <script id="vertex-shader" type="x-shader/x-vertex">
+  attribute vec4 aPosition;
+  attribute vec4 aColor;
+  uniform mat4 uModelViewMatrix;
+  uniform mat4 uProjectionMatrix;
+  varying vec4 vColor;
+  void main() {
+    vColor = aColor;
+    gl_Position = uProjectionMatrix * uModelViewMatrix * aPosition;
+  }
+</script>
+
+  <script id="fragment-shader" type="x-shader/x-fragment">
+  precision mediump float;
+  varying vec4 vColor;
+  void main() {
+    gl_FragColor = vColor;
+  }
+</script>
+
+  <script src="js/script.js"></script>
+</body>
+
+</html>
